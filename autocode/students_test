@@ -20,12 +20,12 @@ func init() {
 
 // WRITE YOUR CODE BELOW
 
+var p0 = Person{firstName: "Gavin", lastName: "Hill", birthDay: time.Date(1970, 6, 23, 0, 0, 0, 0, time.UTC)}
 var p1 = Person{firstName: "Gavin", lastName: "Welch", birthDay: time.Date(1970, 6, 23, 0, 0, 0, 0, time.UTC)}
-var p2 = Person{firstName: "Edward", lastName: "Hill", birthDay: time.Date(1980, 2, 13, 0, 0, 0, 0, time.UTC)}
-var p3 = Person{firstName: "Benjamin", lastName: "Dyer", birthDay: time.Date(1984, 4, 4, 0, 0, 0, 0, time.UTC)}
-var p4 = Person{firstName: "Gordon", lastName: "Rees", birthDay: time.Date(1988, 3, 24, 0, 0, 0, 0, time.UTC)}
-var p5 = Person{firstName: "Dylan", lastName: "Lewis", birthDay: time.Date(1991, 8, 10, 0, 0, 0, 0, time.UTC)}
-var people = People{p1, p2, p3, p4, p5}
+var p2 = Person{firstName: "Dan", lastName: "Dyer", birthDay: time.Date(1970, 6, 23, 0, 0, 0, 0, time.UTC)}
+var p3 = Person{firstName: "Dave", lastName: "Rees", birthDay: time.Date(1988, 3, 24, 0, 0, 0, 0, time.UTC)}
+var p4 = Person{firstName: "Dana", lastName: "Rees", birthDay: time.Date(1991, 8, 10, 0, 0, 0, 0, time.UTC)}
+var people = People{p0, p1, p2, p3, p4}
 
 func TestLen(t *testing.T) {
 	res := people.Len()
@@ -36,9 +36,36 @@ func TestLen(t *testing.T) {
 	}
 }
 
-func TestLess(t *testing.T) {
-	res := people.Less(2, 1)
-	expected := true
+func TestLessName(t *testing.T) {
+	res := people.Less(1, 0)
+	expected := false
+
+	if res != expected {
+		t.Errorf("expected: %t, got %t", expected, res)
+	}
+}
+
+func TestLessBirth(t *testing.T) {
+	res := people.Less(1, 2)
+	expected := false
+
+	if res != expected {
+		t.Errorf("expected: %t, got %t", expected, res)
+	}
+}
+
+func TestLessDiff(t *testing.T) {
+	res := people.Less(3, 4)
+	expected := false
+
+	if res != expected {
+		t.Errorf("expected: %t, got %t", expected, res)
+	}
+}
+
+func TestSameBirth(t *testing.T) {
+	res := people.Less(2, 3)
+	expected := false
 
 	if res != expected {
 		t.Errorf("expected: %t, got %t", expected, res)
@@ -75,6 +102,7 @@ func TestCols(t *testing.T) {
 		  	5 6`
 	res, _ := New(m)
 	cols := res.Cols()
+
 	if cols == nil {
 		t.Errorf("expected correct cols")
 	}
